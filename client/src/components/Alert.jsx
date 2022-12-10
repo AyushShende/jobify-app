@@ -1,4 +1,7 @@
+import { useAlertContext } from '../context/alertContext/alertContext';
+
 const Alert = () => {
-  return <div className="alert alert-danger">alert goes here</div>;
+  const { alertType, alertText } = useAlertContext();
+  return <div className={`alert alert-${alertType}`}>{alertText}</div>;
 };
 export default Alert;

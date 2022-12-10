@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Logo, FormRow, Alert } from '../components';
+import { useAlertContext } from '../context/alertContext/alertContext';
+import { useUserContext } from '../context/userContext/userContext';
 
 const Register = () => {
+  const { showAlert, displayAlert } = useAlertContext();
+  const { setupUser, isLoading, user } = useUserContext();
+  const navigate = useNavigate();
   const initialState = {
     name: '',
     email: '',
     password: '',
-    showAlert: false,
     isMember: true,
   };
   const [credentials, setCredentials] = useState(initialState);
@@ -18,18 +23,45 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //
+    const { name, email, password, isMember } = credentials;
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert('danger', 'Please provide all values');
+      return;
+    }
+    const currentUser = { name, email, password };
+    if (isMember) {
+      setupUser({
+        currentUser,
+        alertText: 'Login Successful! Redirecting...',
+        endPoint: 'login',
+      });
+    } else {
+      setupUser({
+        currentUser,
+        alertText: 'User Created! Redirecting...',
+        endPoint: 'register',
+      });
+    }
   };
 
   const handleChange = (event) => {
-    //
+    setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }
+  }, [user, navigate]);
+
   return (
     <Wrapper className="full-page">
       <form onSubmit={handleSubmit} className="form">
         <Logo />
         <h3>{credentials.isMember ? 'Login' : 'Register'}</h3>
-        {credentials.showAlert && <Alert />}
+        {showAlert && <Alert />}
         {!credentials.isMember && (
           <FormRow
             type="text"
@@ -50,7 +82,7 @@ const Register = () => {
           name="password"
           handleChange={handleChange}
         />
-        <button type="submit" className="btn btn-block">
+        <button disabled={isLoading} type="submit" className="btn btn-block">
           Submit
         </button>
         <p>
