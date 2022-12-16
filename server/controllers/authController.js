@@ -1,8 +1,10 @@
-import User from '../models/User.js';
-import AppError from '../utils/appError.js';
 import { StatusCodes } from 'http-status-codes';
 
-export const register = async (req, res, next) => {
+import User from '../models/User.js';
+import AppError from '../utils/appError.js';
+import createSendToken from '../utils/createSendToken.js';
+
+export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -15,19 +17,11 @@ export const register = async (req, res, next) => {
   }
 
   const newUser = await User.create({ name, email, password });
-  const token = newUser.createJwt();
-  newUser.password = undefined;
-  res.status(StatusCodes.CREATED).json({
-    status: 'sucess',
-    data: {
-      user: newUser,
-      token,
-      location: newUser.location,
-    },
-  });
+
+  createSendToken(newUser, StatusCodes.CREATED, res);
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -40,15 +34,37 @@ export const login = async (req, res, next) => {
     throw new AppError('Incorrect Email or Password', StatusCodes.UNAUTHORIZED);
   }
 
-  const token = user.createJwt();
-  user.password = undefined;
+  createSendToken(user, StatusCodes.OK, res);
+};
 
+export const updateUser = async (req, res) => {
+  const { name, lastName, email, location } = req.body;
+
+  if (!name || !lastName || !email || !location) {
+    throw new AppError('Please provide all values', StatusCodes.BAD_REQUEST);
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.userId,
+    { name, lastName, email, location },
+    { new: true, runValidators: true }
+  );
+
+  createSendToken(updatedUser, StatusCodes.OK, res);
+};
+
+export const getCurrentUser = async (req, res) => {
+  const user = await User.findById(req.user.userId);
   res.status(StatusCodes.OK).json({
     status: 'success',
-    data: { user, token, location: user.location },
+    user,
   });
 };
 
-export const updateUser = async (req, res, next) => {
-  res.send('working');
+export const logout = async (req, res) => {
+  res.cookie('access_token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
 };

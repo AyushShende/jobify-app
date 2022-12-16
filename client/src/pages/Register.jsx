@@ -5,6 +5,39 @@ import { Logo, FormRow, Alert } from '../components';
 import { useAlertContext } from '../context/alertContext/alertContext';
 import { useUserContext } from '../context/userContext/userContext';
 
+const Wrapper = styled.section`
+  display: grid;
+  align-items: center;
+  .logo {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 1.38rem;
+  }
+  .form {
+    max-width: 400px;
+    border-top: 5px solid var(--primary-500);
+  }
+
+  h3 {
+    text-align: center;
+  }
+  p {
+    margin: 0;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .btn {
+    margin-top: 1rem;
+  }
+  .member-btn {
+    background: transparent;
+    border: transparent;
+    color: var(--primary-500);
+    cursor: pointer;
+    letter-spacing: var(--letterSpacing);
+  }
+`;
+
 const Register = () => {
   const { showAlert, displayAlert } = useAlertContext();
   const { setupUser, isLoading, user } = useUserContext();
@@ -85,6 +118,20 @@ const Register = () => {
         <button disabled={isLoading} type="submit" className="btn btn-block">
           Submit
         </button>
+        <button
+          disabled={isLoading}
+          type="button"
+          className="btn btn-block btn-hipster"
+          onClick={() => {
+            setupUser({
+              currentUser: { email: 'testuser@test.com', password: 'test1234' },
+              alertText: 'Login Successful! Redirecting...',
+              endPoint: 'login',
+            });
+          }}
+        >
+          {isLoading ? 'loading...' : 'demo app'}
+        </button>
         <p>
           {credentials.isMember ? 'Not a member yet?' : 'Already a member?'}{' '}
           <button type="button" onClick={toggleMember} className="member-btn">
@@ -96,36 +143,4 @@ const Register = () => {
   );
 };
 
-const Wrapper = styled.section`
-  display: grid;
-  align-items: center;
-  .logo {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 1.38rem;
-  }
-  .form {
-    max-width: 400px;
-    border-top: 5px solid var(--primary-500);
-  }
-
-  h3 {
-    text-align: center;
-  }
-  p {
-    margin: 0;
-    margin-top: 1rem;
-    text-align: center;
-  }
-  .btn {
-    margin-top: 1rem;
-  }
-  .member-btn {
-    background: transparent;
-    border: transparent;
-    color: var(--primary-500);
-    cursor: pointer;
-    letter-spacing: var(--letterSpacing);
-  }
-`;
 export default Register;

@@ -1,34 +1,8 @@
 import main from '../assets/images/main.svg';
 import styled from 'styled-components';
 import { Logo } from '../components';
-import { Link } from 'react-router-dom';
-
-const Landing = () => {
-  return (
-    <Wrapper>
-      <nav>
-        <Logo />
-      </nav>
-      <div className="container page">
-        <div className="info">
-          <h1>
-            Job <span>tracking</span> app
-          </h1>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum
-            ratione doloribus magni atque explicabo enim consequatur, aliquid
-            soluta optio nam vitae, deserunt non nulla repellat magnam officiis
-            perferendis ex asperiores!
-          </p>
-          <Link className="btn btn-hero" to="/register">
-            Login/Register
-          </Link>
-        </div>
-        <img src={main} alt="job hunt" className="img main-img" />
-      </div>
-    </Wrapper>
-  );
-};
+import { Link, Navigate } from 'react-router-dom';
+import { useUserContext } from '../context/userContext/userContext';
 
 const Wrapper = styled.main`
   nav {
@@ -67,4 +41,36 @@ const Wrapper = styled.main`
     }
   }
 `;
+
+const Landing = () => {
+  const { user } = useUserContext();
+  return (
+    <>
+      {user && <Navigate to="/" />}
+      <Wrapper>
+        <nav>
+          <Logo />
+        </nav>
+        <div className="container page">
+          <div className="info">
+            <h1>
+              Job <span>tracking</span> app
+            </h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum
+              ratione doloribus magni atque explicabo enim consequatur, aliquid
+              soluta optio nam vitae, deserunt non nulla repellat magnam
+              officiis perferendis ex asperiores!
+            </p>
+            <Link className="btn btn-hero" to="/register">
+              Login/Register
+            </Link>
+          </div>
+          <img src={main} alt="job hunt" className="img main-img" />
+        </div>
+      </Wrapper>
+    </>
+  );
+};
+
 export default Landing;

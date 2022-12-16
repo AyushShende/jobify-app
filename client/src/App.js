@@ -1,4 +1,3 @@
-import './App.css';
 import { Error, Landing, Register } from './pages';
 import {
   AddJob,

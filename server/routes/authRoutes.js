@@ -1,9 +1,21 @@
 import express from 'express';
-import { login, register, updateUser } from '../controllers/authController.js';
 const router = express.Router();
 
-router.route('/register').post(register);
-router.route('/login').post(login);
-router.route('/updateUser').patch(updateUser);
+import {
+  getCurrentUser,
+  login,
+  logout,
+  register,
+  updateUser,
+} from '../controllers/authController.js';
+import authenticateUser from '../middlewares/authenticateUser.js';
+import limiter from '../middlewares/limiter.js';
+import testUser from '../middlewares/testUser.js';
+
+router.route('/register').post(limiter, register);
+router.route('/login').post(limiter, login);
+router.route('/updateUser').patch(authenticateUser, testUser, updateUser);
+router.route('/getCurrentUser').get(authenticateUser, getCurrentUser);
+router.route('/logout').get(logout);
 
 export default router;

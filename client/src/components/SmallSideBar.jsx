@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import Logo from './Logo';
 import { FaTimes } from 'react-icons/fa';
 import { useAlertContext } from '../context/alertContext/alertContext';
-import links from '../utils/links';
-import { NavLink } from 'react-router-dom';
 import NavLinks from './NavLinks';
 
 const Wrapper = styled.aside`

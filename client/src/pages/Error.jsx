@@ -2,19 +2,6 @@ import styled from 'styled-components';
 import img from '../assets/images/not-found.svg';
 import { Link } from 'react-router-dom';
 
-const Error = () => {
-  return (
-    <Wrapper className="full-page">
-      <div>
-        <img src={img} alt="not-found" />
-        <h3>Ooh! Page not found</h3>
-        <p>We can't seem to find the page you're looking for.</p>
-        <Link to="/">Back home</Link>
-      </div>
-    </Wrapper>
-  );
-};
-
 const Wrapper = styled.main`
   text-align: center;
   img {
@@ -39,5 +26,18 @@ const Wrapper = styled.main`
     text-transform: capitalize;
   }
 `;
+
+const Error = () => {
+  return (
+    <Wrapper className="full-page">
+      <div>
+        <img src={img} alt="not-found" />
+        <h3>Ooh! Page not found</h3>
+        <p>We can't seem to find the page you're looking for.</p>
+        <Link to="/">Back home</Link>
+      </div>
+    </Wrapper>
+  );
+};
 
 export default Error;

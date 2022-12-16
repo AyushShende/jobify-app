@@ -23,7 +23,7 @@ const reducer = (state, action) => {
         showSidebar: !state.showSidebar,
       };
     default:
-      return state;
+      throw new Error(`No such action: ${action.type}`);
   }
 };
 
