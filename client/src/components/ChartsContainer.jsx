@@ -1,8 +1,8 @@
+import { useState } from 'react';
+import styled from 'styled-components';
 import BarChart from './BarChart';
 import AreaChart from './AreaChart';
-import styled from 'styled-components';
 import { useJobContext } from '../context/jobContext/jobContext';
-import { useState } from 'react';
 
 const Wrapper = styled.section`
   margin-top: 4rem;

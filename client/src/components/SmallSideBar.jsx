@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Logo from './Logo';
 import { FaTimes } from 'react-icons/fa';
+import Logo from './Logo';
 import { useAlertContext } from '../context/alertContext/alertContext';
 import NavLinks from './NavLinks';
 

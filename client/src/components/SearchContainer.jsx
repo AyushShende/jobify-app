@@ -67,9 +67,11 @@ const SearchContainer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     clearFilters();
+    setLocalSearch('');
   };
 
   const debounce = () => {
+    console.log('debounce');
     let timeoutId;
     return (e) => {
       setLocalSearch(e.target.value);
@@ -80,6 +82,7 @@ const SearchContainer = () => {
     };
   };
   const optimizedDebounce = useMemo(() => debounce(), []);
+
   return (
     <Wrapper>
       <form className="form">

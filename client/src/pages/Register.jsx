@@ -41,13 +41,16 @@ const Wrapper = styled.section`
 const Register = () => {
   const { showAlert, displayAlert } = useAlertContext();
   const { setupUser, isLoading, user } = useUserContext();
+
   const navigate = useNavigate();
+
   const initialState = {
     name: '',
     email: '',
     password: '',
     isMember: true,
   };
+
   const [credentials, setCredentials] = useState(initialState);
 
   const toggleMember = () => {
@@ -61,6 +64,7 @@ const Register = () => {
       displayAlert('danger', 'Please provide all values');
       return;
     }
+
     const currentUser = { name, email, password };
     if (isMember) {
       setupUser({

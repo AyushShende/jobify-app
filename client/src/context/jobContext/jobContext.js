@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import {
   HANDLE_CHANGE,
@@ -83,24 +83,26 @@ export const JobContextProvider = ({ children }) => {
     }
   };
 
-  const getJobs = async () => {
-    const { page, search, searchStatus, searchType, sort } = state;
-    let url = `/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
-    if (search) {
-      url = url + `&search=${search}`;
-    }
-    dispatch({ type: GET_JOBS_BEGIN });
-    try {
-      const res = await authFetch.get(url);
-      const { jobs, totalJobs, numOfPages } = res.data;
-      dispatch({
-        type: GET_JOBS_SUCCESS,
-        payload: { jobs, totalJobs, numOfPages },
-      });
-    } catch (error) {
-      logoutUser();
-    }
-  };
+  const getJobs = useCallback(
+    async ({ page, search, searchStatus, searchType, sort }) => {
+      let url = `/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+      if (search) {
+        url = url + `&search=${search}`;
+      }
+      dispatch({ type: GET_JOBS_BEGIN });
+      try {
+        const res = await authFetch.get(url);
+        const { jobs, totalJobs, numOfPages } = res.data;
+        dispatch({
+          type: GET_JOBS_SUCCESS,
+          payload: { jobs, totalJobs, numOfPages },
+        });
+      } catch (error) {
+        logoutUser();
+      }
+    },
+    [logoutUser]
+  );
 
   const setEditJob = (id) => {
     dispatch({ type: SET_EDIT_JOB, payload: { id } });
@@ -132,7 +134,7 @@ export const JobContextProvider = ({ children }) => {
     dispatch({ type: DELETE_JOB_BEGIN });
     try {
       await authFetch.delete(`/jobs/${jobId}`);
-      getJobs();
+      getJobs({ ...state });
     } catch (error) {
       if (error.response.status === 401) return;
       displayAlert('danger', error.response.data.message);

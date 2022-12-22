@@ -1,6 +1,6 @@
-import StatsItem from './StatsItem';
 import styled from 'styled-components';
 import { FaSuitcaseRolling, FaCalendarCheck, FaBug } from 'react-icons/fa';
+import StatsItem from './StatsItem';
 import { useJobContext } from '../context/jobContext/jobContext';
 
 const Wrapper = styled.section`

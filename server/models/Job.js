@@ -17,7 +17,6 @@ const jobSchema = new mongoose.Schema(
       enum: ['interview', 'declined', 'pending'],
       default: 'pending',
     },
-
     jobType: {
       type: String,
       enum: ['full-time', 'part-time', 'remote', 'internship'],

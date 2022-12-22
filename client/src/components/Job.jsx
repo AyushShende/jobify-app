@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import JobInfo from './JobInfo';
 import styled from 'styled-components';
+import JobInfo from './JobInfo';
 import { useJobContext } from '../context/jobContext/jobContext';
 
 const Wrapper = styled.article`

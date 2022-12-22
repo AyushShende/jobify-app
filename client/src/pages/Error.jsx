@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import img from '../assets/images/not-found.svg';
 import { Link } from 'react-router-dom';
+import img from '../assets/images/not-found.svg';
 
 const Wrapper = styled.main`
   text-align: center;

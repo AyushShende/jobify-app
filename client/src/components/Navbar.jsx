@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FaAlignLeft, FaCaretDown, FaUserCircle } from 'react-icons/fa';
-import Logo from './Logo';
 import { useState } from 'react';
+import Logo from './Logo';
 import { useUserContext } from '../context/userContext/userContext';
 import { useAlertContext } from '../context/alertContext/alertContext';
 

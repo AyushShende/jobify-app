@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 import { useAlertContext } from '../alertContext/alertContext';
 import {
   LOGOUT_USER,
@@ -57,10 +63,10 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const logoutUser = async () => {
+  const logoutUser = useCallback(async () => {
     await authFetch.get('/auth/logout');
     dispatch({ type: LOGOUT_USER });
-  };
+  }, []);
 
   const updateUser = async ({ currentUser, alertText }) => {
     dispatch({ type: UPDATE_USER_BEGIN });
@@ -82,7 +88,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUser = async () => {
+  const getCurrentUser = useCallback(async () => {
     dispatch({ type: GET_CURRENT_USER_BEGIN });
     try {
       const res = await authFetch.get('/auth/getCurrentUser');
@@ -95,11 +101,11 @@ export const UserContextProvider = ({ children }) => {
       if (error.response.status === 401) return;
       logoutUser();
     }
-  };
+  }, [logoutUser]);
 
   useEffect(() => {
     getCurrentUser();
-  }, []);
+  }, [getCurrentUser]);
 
   return (
     <UserContext.Provider

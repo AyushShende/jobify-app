@@ -1,7 +1,7 @@
-import main from '../assets/images/main.svg';
 import styled from 'styled-components';
-import { Logo } from '../components';
 import { Link, Navigate } from 'react-router-dom';
+import main from '../assets/images/main.svg';
+import { Logo } from '../components';
 import { useUserContext } from '../context/userContext/userContext';
 
 const Wrapper = styled.main`

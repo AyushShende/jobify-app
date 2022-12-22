@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Error, Landing, Register } from './pages';
 import {
   AddJob,
@@ -6,7 +7,6 @@ import {
   SharedLayout,
   Stats,
 } from './pages/dashboard';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {

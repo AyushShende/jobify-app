@@ -45,8 +45,8 @@ const JobsContainer = () => {
   const { showAlert } = useAlertContext();
 
   useEffect(() => {
-    getJobs();
-  }, [page, search, searchStatus, searchType, sort]);
+    getJobs({ page, search, searchStatus, searchType, sort });
+  }, [getJobs, page, search, searchStatus, searchType, sort]);
 
   if (isLoading) {
     return <Loading center />;
